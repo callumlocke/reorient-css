@@ -97,6 +97,26 @@ function resolve(url) {
   return newParts.join('/');
 }
 
+function getRoute(to, from) {
+  from = from.split('/');
+  to   = to.split('/');
+
+  while (from.length && to.length) {
+    if (from[0] === to[0]) {
+      from.shift();
+      to.shift();
+    }
+    else break;
+  }
+
+  from = from.join('/');
+  to   = to.join('/');
+
+  var route = relative(dirname(to), dirname(from));
+
+  return route;
+}
+
 
 // Exports
 module.exports = function reorientCSS (css, from, to) {
@@ -107,8 +127,7 @@ module.exports = function reorientCSS (css, from, to) {
   if (typeof to !== 'string')
     throw new Error('reorient-css: expected "to" argument to be a string.');
 
-
-  var route = relative(dirname(to), dirname(from));
+  var route = getRoute(to, from);
 
   if (route === '') return css;
 
