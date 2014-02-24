@@ -16,7 +16,7 @@ var newCSS = reorientCSS(
   'body { background: url(something.png); }', // css string
   'some/old/stylesheet/file.css',             // old css location
   'some/new/one.css'                          // new css location (this could even be an .html file, if you're
-                                              // inlining the CSS into a &lt;style&gt; element)
+                                              // inlining the CSS into a <style> element)
 );
 
 console.log(newCSS);
