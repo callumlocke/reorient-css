@@ -21,7 +21,7 @@ console.log(newCSS);
 // > body { background: url('../old/stylesheet/something.png'); }
 ```
 
-NB. whitespace will not necessarily be maintained. You can optionally pass an object as a 4th argument, which will be passed to [rework's `toString` method](https://github.com/reworkcss/rework#reworktostringoptions).
+NB. whitespace/formatting will not necessarily be maintained. You can optionally pass an object as a 4th argument, which will be passed to [rework's `toString` method](https://github.com/reworkcss/rework#reworktostringoptions) (eg, `{compress: true}`). But for best results, run the results through a proper minifier after reorienting.
 
 ## License
 Copyright (c) 2014 Callum Locke. Licensed under the MIT license.

@@ -67,13 +67,9 @@ function resolve(url) {
   return newParts.join('/');
 }
 
-// Module
+// Exports
 module.exports = function reorientCSS (css, from, to, options) {
   var route = relative(dirname(to), dirname(from));
-
-  console.log('\n\nFROM', from);
-  console.log('TO', to);
-  console.log('ROUTE', route);
 
   return (
     rework(css)

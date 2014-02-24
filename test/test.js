@@ -1,14 +1,16 @@
-var expect = require('chai').expect;
-var rebaseCSS = require('..');
+/*global describe, it, before*/
 
-describe('rebaseCSS', function() {
+var expect = require('chai').expect;
+var reorientCSS = require('..');
+
+describe('reorientCSS', function() {
   var css;
   before(function () {
     css = require('fs').readFileSync(require('path').join(__dirname, 'fixtures', 'sample.css')).toString();
   });
   
   it('works when moving up directories', function () {
-    var result = rebaseCSS(css, 'styles/foo/main.css', 'index.html', {compress: true});
+    var result = reorientCSS(css, 'styles/foo/main.css', 'index.html', {compress: true});
 
     expect(result).to.equal(
       'p{background:url("styles/foo/foo/bar/wow.png");}' +
@@ -19,7 +21,7 @@ describe('rebaseCSS', function() {
   });
 
   it('works when staying at the same level', function () {
-    var result = rebaseCSS(css, 'styles/main.css', 'styles/other.css', {compress: true});
+    var result = reorientCSS(css, 'styles/main.css', 'styles/other.css', {compress: true});
 
     expect(result).to.equal(
       'p{background:url("foo/bar/wow.png");}' +
@@ -30,9 +32,8 @@ describe('rebaseCSS', function() {
   });
 
   it('works when going deeper', function () {
-    var result = rebaseCSS(css, 'styles/main.css', 'styles/foo/bar/other.html', {compress: true});
+    var result = reorientCSS(css, 'styles/main.css', 'styles/foo/bar/other.html', {compress: true});
 
-    console.log(result);
     expect(result).to.equal(
       'p{background:url("../../foo/bar/wow.png");}' +
       'p{background:url("/foo/bar/wow.png");}' +
