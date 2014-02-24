@@ -1,0 +1,12 @@
+p {
+  background: url('foo/bar/wow.png');
+}
+p {
+  background: url('/foo/bar/wow.png');
+}
+p {
+  background: url('http://example.com/foo/bar/wow.png');
+}
+p {
+  background: url('../phone/football.png');
+}
