@@ -119,7 +119,7 @@ function getRoute(to, from) {
 
 
 // Exports
-module.exports = function reorientCSS(css, from, to) {
+module.exports = function reorientCSS(css, from, to, options) {
   if (typeof css !== 'string')
     throw new Error('reorient-css: expected "css" argument as a string.');
   if (typeof from !== 'string')
@@ -127,9 +127,15 @@ module.exports = function reorientCSS(css, from, to) {
   if (typeof to !== 'string')
     throw new Error('reorient-css: expected "to" argument to be a string.');
 
-  var route = getRoute(to, from);
+  if (!options) options = {};
+  options.from = from;
+  options.to = to;
 
-  if (route === '') return css;
+  // Normalise to Unix-style paths
+  from = from.replace(/\\/g, '/');
+  to = to.replace(/\\/g, '/');
+
+  var route = getRoute(to, from);
 
   var htmlToHTML = (
     path.extname(from) === '.html' &&
@@ -137,6 +143,8 @@ module.exports = function reorientCSS(css, from, to) {
   );
 
   var reorienter = postcss(function (css) {
+    if (route === '') return;
+
     css.eachDecl(function (decl) {
       
       // Skip if this one is a `behavior` property (except if we're relocating
@@ -156,5 +164,5 @@ module.exports = function reorientCSS(css, from, to) {
     });
   });
 
-  return reorienter.process(css).css;
+  return reorienter.process(css, options);
 };
