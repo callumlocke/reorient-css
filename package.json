@@ -1,6 +1,6 @@
 {
   "name": "reorient-css",
-  "version": "0.1.1",
+  "version": "0.2.1",
   "description": "Updates relative asset URLs within a string of CSS to reflect a relocation of the CSS file.",
   "main": "index.js",
   "directories": {
