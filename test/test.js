@@ -25,7 +25,6 @@ describe('reorientCSS', function() {
 
   it('works when staying at the same level', function () {
     var result = reorientCSS(css, 'styles/main.css', 'styles/other.css');
-    console.log(result.map);
 
     expect(result.css).to.equal(
       fs.readFileSync(
