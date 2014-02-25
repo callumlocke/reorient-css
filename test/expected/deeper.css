@@ -23,6 +23,8 @@ p {
 *, *:before, *:after {
   box-sizing: border-box;
   behavior: url(scripts/boxsizing.htc);
+  behavior: url(/scripts/boxsizing.htc);
   behavior  : url(  scripts/boxsizing.htc  );
-  *behavior: url(scripts/boxsizing.htc); /* star hack, often used with behavior prop */
+  *behavior: url(scripts/boxsizing.htc); /* star hack used for IE6-7 */
+  _behavior: url(scripts/boxsizing.htc); /* underscore hack used for IE6 */
 }

@@ -119,7 +119,7 @@ function getRoute(to, from) {
 
 
 // Exports
-module.exports = function reorientCSS (css, from, to) {
+module.exports = function reorientCSS(css, from, to) {
   if (typeof css !== 'string')
     throw new Error('reorient-css: expected "css" argument as a string.');
   if (typeof from !== 'string')
@@ -141,10 +141,7 @@ module.exports = function reorientCSS (css, from, to) {
       
       // Skip if this one is a `behavior` property (except if we're relocating
       // from one HTML file to another)
-      if (!htmlToHTML) {
-        var behaviorIndex = decl.prop.trim().indexOf('behavior');
-        if (behaviorIndex === 0 || behaviorIndex === 1) return;
-      }
+      if (!htmlToHTML && decl.prop === 'behavior') return;
 
       // Edit URLs
       var oldValue = decl.value;
