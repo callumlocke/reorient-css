@@ -12,25 +12,31 @@
 ```javascript
 var reorientCSS = require('reorient-css');
 
-var newCSS = reorientCSS(
+var result = reorientCSS(
   'body { background: url(something.png); }', // css string
   'some/old/stylesheet/file.css',             // old css location
   'some/new/one.css'                          // new css location (this could even be an .html file, if you're
                                               // inlining the CSS into a <style> element)
 );
 
-console.log(newCSS);
+console.log(result.css);
 // > body { background: url('../old/stylesheet/something.png'); }
 ```
 
-**Notes**
+### Notes
 
-- You need to pass a string of CSS as the first argument.
 - It does not care whether the old/new paths actually exist anywhere, it just uses them to determine the relative path from the new location back to the old location, so it can know how to rewrite the asset URLs.
 - Only file-relative URLs are rewritten. Root-relative, absolute and `data:` URLs will be left untouched, as these are expected to work the same regardless of the CSS file's location.
 - `behavior` properties (a proprietary IE thing) will be left untouched, because any URLs in these properties are relative to the HTML document, not the CSS file, so in theory they should never change.
   - The only exception is if you are moving CSS from one HTML document to another (ie, in &lt;style&gt; elements). If both the new and old CSS locations you provide are `.html` files, `behavior` properties **will** be reoriented.
 - Whitespace and formatting are left untouched.
+- The output is an object with a property named `css`, which contains the reoriented CSS string. This object might also contain a `map` property, if you have specified that option (see below).
+
+
+### Options
+
+The function accepts an optional fourth argument: an object of extra options to pass to [PostCSS](https://github.com/ai/postcss). For example, `{map: true}` will tell it to generate a source map (which will be available in the `map` key of the result object). See the [PostCSS docs](https://github.com/ai/postcss#source-map-1) for more details.
+
 
 ## License
 Copyright (c) 2014 Callum Locke. Licensed under the MIT license.

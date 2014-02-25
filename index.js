@@ -119,24 +119,41 @@ function getRoute(to, from) {
 
 
 // Exports
-module.exports = function reorientCSS(css, from, to) {
-  if (typeof css !== 'string')
-    throw new Error('reorient-css: expected "css" argument as a string.');
-  if (typeof from !== 'string')
-    throw new Error('reorient-css: expected "from" argument to be a string.');
-  if (typeof to !== 'string')
-    throw new Error('reorient-css: expected "to" argument to be a string.');
+module.exports = function reorientCSS(css, from, to, options) {
+  // Normalise args
+  if (typeof from === 'object') {
+    options = from;
+    from = options.from;
+    to = options.to;
+  }
+  if (!options){
+    options = {};
+    options.from = from;
+    options.to = to;
+  }
 
+  // Validate input
+  if (typeof css !== 'string')  throw new Error('reorient-css: expected "css" argument as a string.');
+  if (typeof from !== 'string') throw new Error('reorient-css: expected "from" argument to be a string.');
+  if (typeof to !== 'string')   throw new Error('reorient-css: expected "to" argument to be a string.');
+
+  // Normalise to Unix-style paths
+  from = from.replace(/\\/g, '/');
+  to = to.replace(/\\/g, '/');
+
+  // Establish relative route back to original location
   var route = getRoute(to, from);
 
-  if (route === '') return css;
-
+  // See if this relocation is from one HTML file to another (ie, both in <style> elements)
   var htmlToHTML = (
     path.extname(from) === '.html' &&
     path.extname(to) === '.html'
   );
 
-  var reorienter = postcss(function (css) {
+  // Process
+  return postcss(function (css) {
+    if (route === '') return;
+
     css.eachDecl(function (decl) {
       
       // Skip if this one is a `behavior` property (except if we're relocating
@@ -154,7 +171,5 @@ module.exports = function reorientCSS(css, from, to) {
 
       if (newValue !== oldValue) decl.value = newValue;
     });
-  });
-
-  return reorienter.process(css).css;
+  }).process(css, options);
 };
