@@ -141,6 +141,21 @@ module.exports = function reorientCSS(css, from, to, options) {
   from = from.replace(/\\/g, '/');
   to = to.replace(/\\/g, '/');
 
+  return postcss(module.exports.processor(from, to)).process(css, options);
+};
+
+module.exports.processor = function reorientCSSProcessor(from, to) {
+  // Normalise args
+  if (typeof from === 'object') {
+    var options = from;
+    from = options.from;
+    to = options.to;
+  }
+
+  // Validate input
+  if (typeof from !== 'string') throw new Error('reorient-css: expected "from" argument to be a string.');
+  if (typeof to !== 'string')   throw new Error('reorient-css: expected "to" argument to be a string.');
+
   // Establish relative route back to original location
   var route = getRoute(to, from);
 
@@ -151,7 +166,7 @@ module.exports = function reorientCSS(css, from, to, options) {
   );
 
   // Process
-  return postcss(function (css) {
+  return function (css) {
     if (route === '') return;
 
     css.eachDecl(function (decl) {
@@ -171,5 +186,5 @@ module.exports = function reorientCSS(css, from, to, options) {
 
       if (newValue !== oldValue) decl.value = newValue;
     });
-  }).process(css, options);
+  };
 };
