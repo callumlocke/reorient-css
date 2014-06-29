@@ -37,6 +37,21 @@ console.log(result.css);
 
 The function accepts an optional fourth argument: an object of extra options to pass to [PostCSS](https://github.com/ai/postcss). For example, `{map: true}` will tell it to generate a source map (which will be available in the `map` key of the result object). See the [PostCSS docs](https://github.com/ai/postcss#source-map-1) for more details.
 
+## [PostCSS](https://github.com/ai/postcss)
+
+reorient-css can also be used as a PostCSS processor.
+
+```javascript
+var postcss = require('postcss'),
+	reorientCSS = require('reorient-css');
+
+var result = postcss()
+	.use( reorientCSS.processor( 'some/old/stylesheet/file.css', 'some/new/one.css' ) )
+	.process( 'body { background: url(something.png); }' );
+
+console.log(result.css);
+// > body { background: url('../old/stylesheet/something.png'); }
+```
 
 ## License
 Copyright (c) 2014 Callum Locke. Licensed under the MIT license.
