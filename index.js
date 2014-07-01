@@ -153,8 +153,8 @@ module.exports.processor = function reorientCSSProcessor(from, to) {
   }
 
   // Validate input
-  if (typeof from !== 'string') throw new Error('reorient-css: expected "from" argument to be a string.');
-  if (typeof to !== 'string')   throw new Error('reorient-css: expected "to" argument to be a string.');
+  if (typeof from !== 'string') throw new TypeError('reorient-css: expected "from" argument to be a string.');
+  if (typeof to !== 'string')   throw new TypeError('reorient-css: expected "to" argument to be a string.');
 
   // Establish relative route back to original location
   var route = getRoute(to, from);

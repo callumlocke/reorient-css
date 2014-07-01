@@ -8,7 +8,7 @@ Updates relative asset URLs (e.g. `url(../images/something.png)`) within a strin
 **Example use case:** if you were inlining CSS from `styles/main.css` into a `<style>` element in `index.html` (as part of a build task aiming to reduce HTTP round trips), you could use this function to rewrite all the image/font URLs within the CSS so they still work from the new relative base – in this example, it would prepend all file-relative URLs with `style/` (and resolve any `..` etc).
 
 
-## Getting Started
+## Usage
 
 `npm install reorient-css`
 
@@ -28,7 +28,7 @@ console.log(result.css);
 
 ### Notes
 
-- It does not care whether the old/new paths actually exist anywhere, it just uses them to determine the relative path from the new location back to the old location, so it can know how to rewrite the asset URLs.
+- It doesn't care whether files exist at the old/new paths – it just uses these path strings to determine the relative path from the new location back to the old location, so it can know how to rewrite the asset URLs.
 - Only file-relative URLs are rewritten. Root-relative, absolute and `data:` URLs will be left untouched, as these are expected to work the same regardless of the CSS file's location.
 - `behavior` properties (a proprietary IE thing) will be left untouched, because any URLs in these properties are relative to the HTML document, not the CSS file, so in theory they should never change.
   - The only exception is if you are moving CSS from one HTML document to another (ie, in &lt;style&gt; elements). If both the new and old CSS locations you provide are `.html` files, `behavior` properties **will** be reoriented.
@@ -40,11 +40,12 @@ console.log(result.css);
 
 The function accepts an optional fourth argument: an object of extra options to pass to [PostCSS](https://github.com/ai/postcss). For example, `{map: true}` will tell it to generate a source map (which will be available in the `map` key of the result object). See the [PostCSS docs](https://github.com/ai/postcss#source-map-1) for more details.
 
-## [PostCSS](https://github.com/ai/postcss)
 
-reorient-css can also be used as a PostCSS processor.
+## PostCSS
 
-```javascript
+reorient-css can also be used as a [PostCSS](https://github.com/ai/postcss) processor.
+
+```js
 var postcss = require('postcss'),
 	reorientCSS = require('reorient-css');
 
