@@ -1,5 +1,8 @@
 # reorient-css [![Build Status](https://secure.travis-ci.org/callumlocke/reorient-css.png?branch=master)](http://travis-ci.org/callumlocke/reorient-css)
 
+[![NPM](https://nodei.co/npm/reorient-css.png?downloads=true&stars=true)](https://www.npmjs.org/package/reorient-css)
+
+
 > Updates relative asset URLs (ie, `url(something.png)`) within a string of CSS to reflect a relocation of the CSS file.
 
 **Example use case:** if you were inlining CSS from `styles/main.css` into a `<style>` element in `index.html` (as part of a build task aiming to reduce HTTP round trips), you could use this function to rewrite all the image/font URLs within the CSS so they still work from the new relative base – in this example, it would prepend all file-relative URLs with `style/`.

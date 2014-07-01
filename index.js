@@ -133,9 +133,9 @@ module.exports = function reorientCSS(css, from, to, options) {
   }
 
   // Validate input
-  if (typeof css !== 'string')  throw new Error('reorient-css: expected "css" argument as a string.');
-  if (typeof from !== 'string') throw new Error('reorient-css: expected "from" argument to be a string.');
-  if (typeof to !== 'string')   throw new Error('reorient-css: expected "to" argument to be a string.');
+  if (typeof css !== 'string')  throw new TypeError('reorient-css: expected "css" to be a string.');
+  if (typeof from !== 'string') throw new TypeError('reorient-css: expected "from" to be a string.');
+  if (typeof to !== 'string')   throw new TypeError('reorient-css: expected "to" to be a string.');
 
   // Normalise to Unix-style paths
   from = from.replace(/\\/g, '/');
