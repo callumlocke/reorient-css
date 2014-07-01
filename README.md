@@ -3,9 +3,9 @@
 [![NPM](https://nodei.co/npm/reorient-css.png?downloads=true&stars=true)](https://www.npmjs.org/package/reorient-css)
 
 
-> Updates relative asset URLs (ie, `url(something.png)`) within a string of CSS to reflect a relocation of the CSS file.
+Updates relative asset URLs (e.g. `url(../images/something.png)`) within a string of CSS to reflect a relocation of the CSS file.
 
-**Example use case:** if you were inlining CSS from `styles/main.css` into a `<style>` element in `index.html` (as part of a build task aiming to reduce HTTP round trips), you could use this function to rewrite all the image/font URLs within the CSS so they still work from the new relative base – in this example, it would prepend all file-relative URLs with `style/`.
+**Example use case:** if you were inlining CSS from `styles/main.css` into a `<style>` element in `index.html` (as part of a build task aiming to reduce HTTP round trips), you could use this function to rewrite all the image/font URLs within the CSS so they still work from the new relative base – in this example, it would prepend all file-relative URLs with `style/` (and resolve any `..` etc).
 
 
 ## Getting Started
@@ -18,9 +18,9 @@ var reorientCSS = require('reorient-css');
 var result = reorientCSS(
   'body { background: url(something.png); }', // css string
   'some/old/stylesheet/file.css',             // old css location
-  'some/new/one.css'                          // new css location (this could even be an .html file, if you're
-                                              // inlining the CSS into a <style> element)
-);
+  'some/new/one.css'                          // new css location (this could even be an .html file,
+);                                            // if you're inlining the CSS into a <style> element
+                                              // - the basename is ignored anyway)
 
 console.log(result.css);
 // > body { background: url('../old/stylesheet/something.png'); }
